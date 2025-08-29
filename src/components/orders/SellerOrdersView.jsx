@@ -63,6 +63,18 @@ const SellerOrdersView = () => {
             setOrders(originalOrders);
         } else {
             toast({ title: 'Statut mis à jour', description: `La commande a été mise à jour.` });
+            
+            // Send WhatsApp notification to customer for status updates
+            if (newStatus === 'confirmed' || newStatus === 'shipped' || newStatus === 'delivered') {
+              try {
+                await supabase.functions.invoke('send-order-confirmation-whatsapp', {
+                  body: { orderId, recipientType: 'customer' }
+                });
+              } catch (whatsappError) {
+                console.warn('WhatsApp notification failed:', whatsappError);
+              }
+            }
+            
             loadOrders();
         }
     };

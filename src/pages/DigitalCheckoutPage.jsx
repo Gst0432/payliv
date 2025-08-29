@@ -103,6 +103,8 @@ import React, { useState, useEffect, useMemo } from 'react';
                 status: 'unpaid',
                 payment_method: 'apiweb',
                 customer_country_code: countryCode,
+                has_digital: true,
+                has_physical: false,
             }).select().single();
 
             if (orderError) throw orderError;

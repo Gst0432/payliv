@@ -24,7 +24,7 @@ export default function UserPurchases() {
       const { data, error } = await supabase
         .from('orders')
         .select('*, store:store_id(name, slug)')
-        .eq('customer->>email', user.email)
+        .or(`customer->>email.eq.${user.email},customer_user_id.eq.${user.id}`)
         .order('created_at', { ascending: false });
 
       if (error) {

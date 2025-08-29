@@ -99,6 +99,14 @@ import React, { useState, useEffect, useCallback } from 'react';
       }, [storeSlug, productId, toast, logVisit]);
 
       const handleDigitalPurchase = () => {
+        if (!store?.settings?.payments?.apiweb_enabled) {
+          toast({
+            title: "Paiement indisponible",
+            description: "Le paiement en ligne n'est pas activé pour cette boutique.",
+            variant: "destructive"
+          });
+          return;
+        }
         navigate(`/checkout/${product.id}`);
       };
 

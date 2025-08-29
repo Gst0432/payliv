@@ -1,5 +1,4 @@
-
-    import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
     import { motion } from 'framer-motion';
     import { X, Loader2, ShoppingCart, Truck, CreditCard } from 'lucide-react';
     import { Button } from '@/components/ui/button';
@@ -51,7 +50,9 @@
           currency: store.settings?.currency || 'XOF',
           status: paymentMethod === 'cod' ? 'pending' : 'unpaid',
           payment_method: paymentMethod,
-          customer_country_code: countryCode
+          customer_country_code: countryCode,
+          has_digital: cart.some(item => item.product_type === 'digital'),
+          has_physical: cart.some(item => item.product_type === 'physical'),
         }).select().single();
 
         if (error) throw error;
@@ -193,4 +194,3 @@
     };
 
     export default OrderModal;
-  
