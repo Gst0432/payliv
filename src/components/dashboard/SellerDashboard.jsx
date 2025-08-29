@@ -81,6 +81,17 @@ import React, { useState, useEffect, useCallback } from 'react';
         fetchDashboardData();
       }, [user, networkError, fetchDashboardData]);
 
+      // Auto-refresh stats every 30 seconds when component is active
+      useEffect(() => {
+        if (!user || networkError) return;
+        
+        const interval = setInterval(() => {
+          fetchDashboardData();
+        }, 30000); // 30 seconds
+        
+        return () => clearInterval(interval);
+      }, [user, networkError, fetchDashboardData]);
+
       const loadSettings = async () => {
         if (!user) return;
         const { data, error } = await supabase
